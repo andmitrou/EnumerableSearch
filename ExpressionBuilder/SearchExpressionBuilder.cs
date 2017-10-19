@@ -34,16 +34,18 @@ namespace ExpressionBuilder
 
         #region [Private Methods]
 
+        private PropertyInfo[] GetAllProperties<T>() => typeof(T).GetProperties();
+            
         private List<PropertyInfo> FindSearchableProperties<T>()
         {
-            return typeof(T).GetProperties().Where(
+            return GetAllProperties<T>().Where(
                                        prop => Attribute.IsDefined(prop, typeof(Searchable)))
                                        .ToList();
         }
 
         private List<PropertyInfo> FindSearchableProperties<T>(params string[] properties)
         {
-            return typeof(T).GetProperties().Where(
+            return GetAllProperties<T>().Where(
                                        prop => properties.Contains(prop.Name))
                                        .ToList();
         }
